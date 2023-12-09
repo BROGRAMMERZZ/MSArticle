@@ -19,7 +19,11 @@ public class ArticleController {
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
     }
-
+    @PostMapping("add")
+    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
+        Article createdArticle = articleService.createArticle(article);
+        return ResponseEntity.ok(createdArticle);
+    }
     @GetMapping
     public List<Article> getAllArticles() {
         return articleService.getAllArticles();
@@ -31,11 +35,7 @@ public class ArticleController {
         return article.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("add")
-    public ResponseEntity<Article> createArticle(@RequestBody Article article) {
-        Article createdArticle = articleService.createArticle(article);
-        return ResponseEntity.ok(createdArticle);
-    }
+
 
     @PutMapping("modif/{id}")
     public ResponseEntity<Article> updateArticle(@PathVariable String id, @RequestBody Article updatedArticle) {
